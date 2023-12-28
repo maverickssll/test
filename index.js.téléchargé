@@ -1,0 +1,12 @@
+$(document).ready(function(){$('#discountModal').modal('show');$('#modalswitch').click(function(){$('#discountModal').modal('hide');$('#discountModal2').modal('show');setTimeout(function(){$('.loading-modal').hide();},5000);setTimeout(function(){$('.modal-description2').show();},5000);setTimeout(function(){$('.modal-description').hide();},5000);setTimeout(function(){$('#modal-footer').css("visibility","visible");},5000);})
+$('#apply-coupon').click(function(){$('.finalprice').show();$('.originalprice').hide();$('#discountModal2').modal('hide');})});$(document).ready(function(){var promoCode=[`${getQueryVariable('promo')}`];if(!localStorage['promoCodeSeen']){localStorage['promoCodeSeen']=0;}
+if(promoCode!==''&&localStorage.promoCodeSeen==0){$('[data-content="promoCode"]').text(promoCode);$('#modalPromo').show(0);}
+var dateObj=new Date();dateObj.setMinutes(dateObj.getMinutes()+15);var offersUpToH=dateObj.getHours();var offersUpToMin=dateObj.getMinutes();if(offersUpToMin>0&&offersUpToMin<15){offersUpToMin=15;}
+if(offersUpToMin>15&&offersUpToMin<30){offersUpToMin=30;}
+if(offersUpToMin>30&&offersUpToMin<45){offersUpToMin=45;}
+if(offersUpToMin>45){offersUpToMin=0;offersUpToH+=1;}
+$('#offersUpTo').text((offersUpToH<10?'0'+offersUpToH:offersUpToH)+':'+(offersUpToMin<10?'0'+offersUpToMin:offersUpToMin));$.each($('.product-block__container__content__info'),function(){var $this=$(this);var productTitle=$this.parent().find('.product-block__container__content__title').text();$this.parent().attr('title',productTitle);if(!localStorage[productTitle]){localStorage[productTitle]=getRnd(2,5);}
+$this.text(localStorage[productTitle]+' available');if(parseFloat(localStorage[productTitle])>1){setTimeout(function(){codeUsed(productTitle);},getRnd(15,60)*1000);}});});function codeUsed(product){var $product=$('div[title="'+product+'"]');localStorage[product]-=1;$product.find('.product-block__container__content__info').text(localStorage[product]+' available');if(parseFloat(localStorage[product])>1){setTimeout(function(){codeUsed(product);},getRnd(15,60)*1000);}}
+function getQueryVariable(variable){var query=window.location.search.substring(1);var vars=query.split("&");for(var i=0;i<vars.length;i++){var pair=vars[i].split("-");if(pair[0]==variable){return pair[1];}}
+$('#modalPromo').remove();}
+function getRnd(min,max){return Math.round(Math.random()*(max-min)+min);}
